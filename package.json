@@ -11,6 +11,7 @@
   "author": "Tevvin <Tevvin7395@icloud.com>",
   "license": "MIT",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "express": "^4.17.1",
     "helmet": "^3.18.0",
     "knex": "^0.17.3",
