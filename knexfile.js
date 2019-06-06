@@ -8,7 +8,7 @@ module.exports = {
       filename: './Authi.db'
     }
   },
-
+  useNullAsdefault: true,
 
   /*
   staging: {
