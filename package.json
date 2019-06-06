@@ -1,0 +1,9 @@
+{
+  "name": "webauth-i-challenge",
+  "version": "1.0.0",
+  "description": "Authentication Project",
+  "main": "index.js",
+  "repository": "https://github.com/TevvinStrong/webauth-i-challenge.git",
+  "author": "Tevvin <Tevvin7395@icloud.com>",
+  "license": "MIT"
+}
