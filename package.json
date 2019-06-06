@@ -3,7 +3,15 @@
   "version": "1.0.0",
   "description": "Authentication Project",
   "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "server": "nodemon index.js"
+  },
   "repository": "https://github.com/TevvinStrong/webauth-i-challenge.git",
   "author": "Tevvin <Tevvin7395@icloud.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1",
+    "nodemon": "^1.19.1"
+  }
 }
