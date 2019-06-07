@@ -1,7 +1,7 @@
 const db = require('../../data/dbConfig.js');
 
 function find() {
-    return db('login');
+    return db('users');
 }
 
 function findById(id) {
@@ -9,6 +9,7 @@ function findById(id) {
         .where({ id })
         .first();
 }
+
 
 function add(users) {
     return db('users')
