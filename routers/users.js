@@ -28,14 +28,14 @@ router.post('/login', (req, res) => {
         .first()
         .then(user => {
             if (user && bcrypt.compareSync(password, user.password)) {
+                req.session.user = user;
                 res.status(200).json({ message: `Welcome ${user.username}!` });
             } else {
-                res.status(401).json({ message: "You shall not pass!!" });
+                res.status(401).json({ message: "You shall not pass!" });
             }
-            //console.log(user);
         })
         .catch(error => {
-            res.status(500).json({ error: "We ran into an error retreving the specified request.", error });
+            res.status(500).json({ message: "We ran into an error retreving the specified request." });
         });
 });
 
