@@ -1,9 +1,9 @@
 const router = require('express').Router();
 const bcrypt = require('bcryptjs');
-const jwt = require('jwtwebtoken');
 
 const Users = require('../data/helpers/usersModel.js');
 const restricted = require('../auth/restricted-middleware.js');
+const webToken = require('../auth/webToken.js');
 
 // Routes
 
@@ -15,10 +15,11 @@ router.post('/register', (req, res) => {
 
     Users.add(user)
         .then(user => {
-            res.status(201).json(user);
+            const token = generateToken(user)
+            res.status(201).json({ authToken: token });
         })
         .catch(error => {
-            res.status(500).json({ message: "We ran into an error retreving the specified request.", error });
+            res.status(500).json({ message: "We ran into an error retreving the specified request." });
         });
 });
 
@@ -29,8 +30,8 @@ router.post('/login', (req, res) => {
         .first()
         .then(user => {
             if (user && bcrypt.compareSync(password, user.password)) {
-                req.session.user = user;
-                res.status(200).json({ message: `Welcome ${user.username}!` });
+                const token = generateToken(user)
+                res.status(200).json({ message: `Welcome ${user.username}!`, authToken: token, });
             } else {
                 res.status(401).json({ message: "You shall not pass!" });
             }
