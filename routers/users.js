@@ -1,12 +1,11 @@
 const router = require('express').Router();
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const Users = require('../data/helpers/usersModel.js');
 const restricted = require('../auth/restricted-middleware.js');
-const woken = require('../auth/webToken.js');
 
 // Routes
-
 router.post('/register', (req, res) => {
     let user = req.body;
 
@@ -15,11 +14,10 @@ router.post('/register', (req, res) => {
 
     Users.add(user)
         .then(user => {
-            const token = generateToken(user)
-            res.status(201).json({ authToken: token });
+            res.status(201).json(user);
         })
         .catch(error => {
-            res.status(500).json({ message: "We ran into an error retreving the specified request." });
+            res.status(500).json({ message: "We ran into an error retreving the specified request.", error });
         });
 });
 
@@ -30,8 +28,10 @@ router.post('/login', (req, res) => {
         .first()
         .then(user => {
             if (user && bcrypt.compareSync(password, user.password)) {
-                const token = generateToken(user)
-                res.status(200).json({ message: `Welcome ${user.username}!`, authToken: token });
+                //req.session.user = user;
+                const token = generateToken(user);
+
+                res.status(200).json({ message: `Welcome ${user.username}!`, token, });
             } else {
                 res.status(401).json({ message: "You shall not pass!" });
             }
@@ -51,5 +51,20 @@ router.get('/users', restricted, (req, res) => {
             res.status(500).json({ error: "We ran into an error retreving the specified request.", error });
         })
 });
+
+//Generate token.
+function generateToken(user) {
+    const payload = {
+        userId: user.id,
+        username: user.username,
+
+    };
+    const secret = 'thisisreallllyasecret';
+    const options = {
+        expiresIn: '1h',
+    };
+
+    return jwt.sign(payload, secret, options)
+}
 
 module.exports = router;
