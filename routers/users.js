@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 
 const Users = require('../data/helpers/usersModel.js');
 const restricted = require('../auth/restricted-middleware.js');
+const secrets = require('../config/secrets.js');
 
 // Routes
 router.post('/register', (req, res) => {
@@ -59,12 +60,12 @@ function generateToken(user) {
         username: user.username,
 
     };
-    const secret = 'thisisreallllyasecret';
+
     const options = {
         expiresIn: '1h',
     };
 
-    return jwt.sign(payload, secret, options)
+    return jwt.sign(payload, secrets.jwtSecret, options)
 }
 
 module.exports = router;
