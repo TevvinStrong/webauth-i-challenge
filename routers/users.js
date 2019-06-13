@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 
 const Users = require('../data/helpers/usersModel.js');
 const restricted = require('../auth/restricted-middleware.js');
-const webToken = require('../auth/webToken.js');
+const woken = require('../auth/webToken.js');
 
 // Routes
 
@@ -31,7 +31,7 @@ router.post('/login', (req, res) => {
         .then(user => {
             if (user && bcrypt.compareSync(password, user.password)) {
                 const token = generateToken(user)
-                res.status(200).json({ message: `Welcome ${user.username}!`, authToken: token, });
+                res.status(200).json({ message: `Welcome ${user.username}!`, authToken: token });
             } else {
                 res.status(401).json({ message: "You shall not pass!" });
             }
