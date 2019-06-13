@@ -46,7 +46,7 @@ router.post('/login', (req, res) => {
 router.get('/users', restricted, (req, res) => {
     Users.find()
         .then(users => {
-            res.status(200).json(users);
+            res.json({ users, decodedToken: req.decodedToken });
         })
         .catch(error => {
             res.status(500).json({ error: "We ran into an error retreving the specified request.", error });
