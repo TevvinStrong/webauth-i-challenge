@@ -1,5 +1,5 @@
 import React from 'react';
-import axios from 'axios';
+import api from './helpers/api.js';
 
 class Login extends React.Component {
     state = {
@@ -12,13 +12,13 @@ class Login extends React.Component {
         console.log(this.state);
 
         try {
-            const endpoint = 'http://localhost:5000/api/login';
-            const result = await axios.post(endpoint, {
+            const result = await api.post('/login', {
                 username: this.state.username,
                 password: this.state.password,
             })
 
             console.log(result);
+            localStorage.setItem('token', result.data.token);
         } catch (err) {
             console.log(err);
         }
