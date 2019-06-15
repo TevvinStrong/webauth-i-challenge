@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 import api from './helpers/api.js';
 
 class Login extends React.Component {
@@ -19,6 +20,7 @@ class Login extends React.Component {
 
             console.log(result);
             localStorage.setItem('token', result.data.token);
+            this.props.history.push('/users');
         } catch (err) {
             console.log(err);
         }
@@ -47,4 +49,4 @@ class Login extends React.Component {
     }
 }
 
-export default Login;
+export default withRouter(Login);

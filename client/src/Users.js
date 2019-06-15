@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 import api from './helpers/api.js';
 
 class Users extends React.Component {
@@ -15,7 +16,11 @@ class Users extends React.Component {
             })
             console.log(result);
         } catch (err) {
-            console.log(err);
+            if (err.response.status === 401 || err.response.status === 403) {
+                this.props.history.push('/login');
+            } else {
+                console.log(err);
+            }
         }
     }
 
@@ -34,4 +39,4 @@ class Users extends React.Component {
     }
 }
 
-export default Users;
+export default withRouter(Users);
